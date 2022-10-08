@@ -1,0 +1,43 @@
+function e = hermite_ijk_nd( ndim, p)
+%
+% hermite_ijk_nd.m - Evaluate the inner product of n-dimensional
+%                    Hermite-chaos triplets
+%
+% Syntax     e = hermite_ijk_nd( ndim, p)
+%
+% Input:     ndim = dimensionality of the Hermite-chaos
+%            p    = order of the Hermite-chaos
+%
+% Output:    e = PxPxP (P=(ndim+p)!/(ndim!p!)) matrix containing the result.
+% 
+% By Dongbin Xiu   5/06/2002
+%
+
+if ndim <= 0
+   fprintf('Invalid dimensionality! (need n>0)\n');
+end
+
+if ndim == 1
+   e = hermite_ijk_1d(p);
+else
+   P = nchoosek(ndim+p, p);
+   e = ones(P,P,P);
+   e1 = hermite_ijk_1d(p);
+   poly = chaos_sequence(ndim, p);
+   for i=1:P
+      for j=i:P
+         for k=j:P
+            for n=1:ndim
+               e(i,j,k) = e(i,j,k) * e1(poly(i,n)+1, poly(j,n)+1, poly(k,n)+1);
+            end
+
+            e(i,k,j) = e(i,j,k);
+            e(j,i,k) = e(i,j,k);
+            e(j,k,i) = e(i,j,k);
+            e(k,i,j) = e(i,j,k);
+            e(k,j,i) = e(i,j,k);
+         end
+      end
+   end
+end
+

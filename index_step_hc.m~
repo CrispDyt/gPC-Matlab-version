@@ -1,0 +1,15 @@
+function pn = index_step_hc( p, order )
+% 
+% This routine takes a matrix p and generates matrix p1 whose entries
+% are all the combination of those of rows of p plus 1 to n.
+%
+
+p1 = index_step1_hc(p, order);
+if isempty(p1) ~= 1
+    pn = cat(1, p, p1);
+%  p1 = index_step1_hc(ptmp, order);
+%  if isempty(p1) ~= 1
+%    pn = cat(1, pn, p1);
+%  end
+%end
+end
